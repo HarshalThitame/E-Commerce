@@ -1,7 +1,9 @@
 package com.ecom.controller;
 
 import com.ecom.customeexception.ResourceNotFoundException;
+import com.ecom.entity.Cart;
 import com.ecom.entity.User;
+import com.ecom.service.CartService;
 import com.ecom.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private CartService cartService;
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
@@ -57,6 +61,9 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody User user) {
         User newUser = userService.createUser(user);
+        Cart cart = new Cart();
+        cart.setUser(newUser);
+        cartService.save(cart);
         return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
 

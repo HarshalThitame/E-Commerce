@@ -10,5 +10,10 @@ public interface CategoryService {
     List<Category> findAll();
     Category save(Category category);
     void deleteById(Long id);
+
+    Category update(Long id, Category categoryDetails);
+
+    Category findByName(String name);
+
 }
 

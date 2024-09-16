@@ -12,8 +12,10 @@ import java.sql.Timestamp;
 @Table(name = "shipping_address")
 public class ShippingAddress {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    private String firstName;
+    private String lastName;
 
     @OneToOne
     @JoinColumn(name = "order_id", nullable = false)
@@ -30,7 +32,7 @@ public class ShippingAddress {
     @Column(nullable = false)
     private String country;
     @Column(nullable = false)
-    private String postalCode;
+    private String zipCode;
 
     @CreationTimestamp
     private Timestamp createdAt;

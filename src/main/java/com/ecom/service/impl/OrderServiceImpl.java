@@ -1,5 +1,6 @@
 package com.ecom.service.impl;
 
+import com.ecom.config.websocket.OrderWebSocketHandler;
 import com.ecom.entity.Order;
 import com.ecom.entity.User;
 import com.ecom.repositories.OrderRepository;
@@ -18,6 +19,8 @@ public class OrderServiceImpl implements OrderService {
     private OrderRepository orderRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private OrderWebSocketHandler orderWebSocketHandler;
 
     @Override
     public Optional<Order> findById(Long id) {
@@ -31,6 +34,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public Order save(Order order) {
+
         return orderRepository.save(order);
     }
 
@@ -43,4 +47,16 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> findByUserId(Long id) {
         return orderRepository.findByUser(userRepository.findById(id).get());
     }
+
+    @Override
+    public List<Order> getAllOrders() {
+        return orderRepository.findAll();
+    }
+
+    @Override
+    public Optional<Order> updateOrder(Order order) {
+        return Optional.of(orderRepository.save(order));
+    }
+
+
 }

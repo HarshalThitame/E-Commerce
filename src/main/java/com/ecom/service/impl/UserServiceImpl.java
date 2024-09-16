@@ -4,6 +4,8 @@ import com.ecom.entity.User;
 import com.ecom.repositories.UserRepository;
 import com.ecom.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,6 +45,37 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> getAllUsers(){
         return userRepository.findAll();
+    }
+
+    @Override
+    public User updateUserProfile(String username, User userDetails) {
+        return userRepository.save(userDetails);
+    }
+
+    @Override
+    public User getCurrentUser() {
+        // This example assumes you are using Spring Security
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            String username = ((UserDetails) principal).getUsername();
+            return findUserByUsername(username); // Implement this method to retrieve user by username
+        }
+        throw new RuntimeException("User not found");
+    }
+
+    @Override
+    public User getUserById(Long userId) {
+        return userRepository.findById(userId).orElse(null);
+    }
+
+    @Override
+    public User updateUser(User newUser) {
+        return userRepository.save(newUser);
+    }
+
+    private User findUserByUsername(String username) {
+
+        return userRepository.findByUsername(username).orElseThrow();
     }
 }
 

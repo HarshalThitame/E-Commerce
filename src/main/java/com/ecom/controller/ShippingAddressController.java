@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/shipping-addresses")
+@RequestMapping("/api/users/shipping-address")
 public class ShippingAddressController {
 
     @Autowired
@@ -20,6 +20,15 @@ public class ShippingAddressController {
     @GetMapping("/{id}")
     public ResponseEntity<ShippingAddress> getShippingAddressById(@PathVariable Long id) {
         Optional<ShippingAddress> shippingAddress = shippingAddressService.findById(id);
+        if (shippingAddress.isEmpty()) {
+            throw new ResourceNotFoundException("ShippingAddress not found with id: " + id);
+        }
+        return ResponseEntity.ok(shippingAddress.get());
+    }
+
+    @GetMapping("/byOrder/{id}")
+    public ResponseEntity<ShippingAddress> getShippingAddressByOrderId(@PathVariable Long id) {
+        Optional<ShippingAddress> shippingAddress = shippingAddressService.getShippingAddressByOrderId(id);
         if (shippingAddress.isEmpty()) {
             throw new ResourceNotFoundException("ShippingAddress not found with id: " + id);
         }

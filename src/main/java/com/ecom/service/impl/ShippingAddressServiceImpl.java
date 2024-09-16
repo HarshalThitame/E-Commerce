@@ -6,6 +6,7 @@ import com.ecom.service.ShippingAddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -21,11 +22,23 @@ public class ShippingAddressServiceImpl implements ShippingAddressService {
 
     @Override
     public ShippingAddress save(ShippingAddress shippingAddress) {
+        long id = System.currentTimeMillis();
+        shippingAddress.setId(id);
         return shippingAddressRepository.save(shippingAddress);
     }
 
     @Override
     public void deleteById(Long id) {
         shippingAddressRepository.deleteById(id);
+    }
+
+    @Override
+    public List<ShippingAddress> getAllShippingAddresses() {
+        return shippingAddressRepository.findAll();
+    }
+
+    @Override
+    public Optional<ShippingAddress> getShippingAddressByOrderId(Long id) {
+        return shippingAddressRepository.findByOrderId(id);
     }
 }

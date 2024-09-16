@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -27,10 +28,21 @@ public class User {
 
     private String firstName;
     private String lastName;
+    private String phone;
+    private String businessName;
+    private String gstNumber;
+    private String panCardNumber;
+    private String profileImage;
+    private Timestamp dateOfBirth;
+    private String gender;
+    private boolean isVerified;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private UserRole userRole;
+
+    @OneToMany(mappedBy = "user")
+    private Set<SavedAddresses> savedAddresses;
 
     @CreationTimestamp
     private Timestamp createdAt;

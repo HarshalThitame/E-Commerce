@@ -12,4 +12,7 @@ public interface OrderService {
     Order save(Order order);
     void deleteById(Long id);
     List<Order> findByUserId(Long id);
+    List<Order> getAllOrders();
+    Optional<Order> updateOrder(Order order);
+
 }

@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/payments")
+@RequestMapping("/api/general/payments")
 public class PaymentController {
 
     @Autowired
@@ -20,6 +20,15 @@ public class PaymentController {
     @GetMapping("/{id}")
     public ResponseEntity<Payment> getPaymentById(@PathVariable Long id) {
         Optional<Payment> payment = paymentService.findById(id);
+        if (payment.isEmpty()) {
+            throw new ResourceNotFoundException("Payment not found with id: " + id);
+        }
+        return ResponseEntity.ok(payment.get());
+    }
+
+    @GetMapping("/byOrderId/{id}")
+    public ResponseEntity<Payment> getPaymentByOrderId(@PathVariable Long id) {
+        Optional<Payment> payment = paymentService.findByOrderID(id);
         if (payment.isEmpty()) {
             throw new ResourceNotFoundException("Payment not found with id: " + id);
         }
@@ -37,5 +46,7 @@ public class PaymentController {
         paymentService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+
 }
 

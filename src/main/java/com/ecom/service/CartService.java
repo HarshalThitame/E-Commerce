@@ -10,4 +10,6 @@ public interface CartService {
     Cart findByUser(User user);
     Cart save(Cart cart);
     void deleteById(Long id);
+
+    Cart getCurrentCart();
 }
