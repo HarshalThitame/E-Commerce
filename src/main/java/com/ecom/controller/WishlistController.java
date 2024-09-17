@@ -32,11 +32,7 @@ public class WishlistController {
         Wishlist wishlist = wishlistService.getWishlistByUserId(userId);
         Set<WishlistItem> wishlistItemByWishlistId = wishlistItemService.getWishlistItemByWishlistId(wishlist.getId());
         wishlist.setItems(wishlistItemByWishlistId);
-        if (wishlist != null) {
-            return new ResponseEntity<>(wishlist, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(wishlist, HttpStatus.OK);
     }
 
     @GetMapping("/{wid}/product/{pid}")

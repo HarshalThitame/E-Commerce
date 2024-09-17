@@ -97,6 +97,7 @@ public class AuthenticateController {
 
         User newUser = userService.getUserById(user.getId());
         user.setPassword(newUser.getPassword());
+
         return updateUserDetails(user, newUser);
     }
 
